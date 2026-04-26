@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienestar Psicológico - Servicios Corporativos</title>
+    <style>
+        :root {
+            --primary: #5d87a8;
+            --secondary: #8da9c4;
+            --accent: #ee6c4d;
+            --text: #2f3e46;
+            --bg: #f1f7f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card h2 { color: var(--primary); margin-top: 0; }
+
+        .btn-more {
+            margin-top: auto;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-more:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Talleres de Psicología para Empresas</h1>
+    <p>Fortaleciendo la salud mental y el rendimiento de sus equipos.</p>
+</header>
+
+<div class="container">
+    <div class="grid" id="mainGrid"></div>
+</div>
+
+<script>
+    const servicios = [
+        {
+            id: 1,
+            titulo: "Mindfulness Operativo",
+            descripcion: "Técnicas de atención plena para reducir el estrés y mejorar la concentración en entornos de alta presión.",
+            detalles: "Programa intensivo de manejo de ansiedad y enfoque.",
+            beneficios: ["Reducción de fatiga", "Mejor toma de decisiones", "Clima de calma"],
+            precio: "S/ 1,200 por sesión",
+            docentes: "Dra. Elena Ramos - Especialista en Terapia Cognitiva."
+        },
+        {
+            id: 2,
+            titulo: "Psicología Preventiva",
+            descripcion: "Talleres orientados a identificar riesgos psicosociales antes de que afecten la operatividad.",
+            detalles: "Evaluación grupal y herramientas de autocuidado emocional.",
+            beneficios: ["Menor ausentismo", "Detección de burnout", "Soporte mutuo"],
+            precio: "S/ 1,500 por taller",
+            docentes: "Mg. Roberto Castillo - Psicólogo Organizacional."
+        }
+    ];
+
+    const grid = document.getElementById('mainGrid');
+
+    servicios.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <h2>${s.titulo}</h2>
+            <p>${s.descripcion}</p>
+            <button class="btn-more" onclick="verDetalle(${s.id})">Leer más</button>
+        `;
+        grid.appendChild(div);
+    });
+
+    function verDetalle(id) {
+        const s = servicios.find(x => x.id === id);
+        const win = window.open("", "_blank");
+        win.document.write(`
+            <html>
+            <head>
+                <title>${s.titulo}</title>
+                <style>
+                    body { font-family: sans-serif; padding: 40px; background: #f4f7f6; }
+                    .box { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                    h1 { color: #5d87a8; }
+                    .precio { font-size: 1.5rem; color: #ee6c4d; font-weight: bold; }
+                    form { margin-top: 30px; background: #eee; padding: 20px; border-radius: 8px; }
+                    input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+                    button { background: #ee6c4d; color: white; border: none; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; }
+                </style>
+            </head>
+            <body>
+                <div class="box">
+                    <h1>${s.titulo}</h1>
+                    <p>${s.detalles}</p>
+                    <p><strong>Beneficios:</strong> ${s.beneficios.join(", ")}</p>
+                    <p class="precio">Inversión: ${s.precio}</p>
+                    <p><strong>Docente:</strong> ${s.docentes}</p>
+                    <form onsubmit="alert('Solicitud enviada'); window.close(); return false;">
+                        <h3>Solicitar Cotización</h3>
+                        <input type="text" placeholder="Nombre de Empresa" required>
+                        <input type="email" placeholder="Correo de contacto" required>
+                        <textarea placeholder="Cuéntanos más sobre tu grupo..."></textarea>
+                        <button type="submit">ENVIAR SOLICITUD</button>
+                    </form>
+                </div>
+            </body>
+            </html>
+        `);
+        win.document.close();
+    }
+</script>
+
+</body>
+</html>
